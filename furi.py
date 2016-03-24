@@ -116,7 +116,9 @@ def add_yomi(string):
     rstring = ''
     for token in tokens:
         s = token.surface
-        r = token.reading.decode('utf-8')
+        r = token.reading
+        if not isinstance(r, unicode):
+            r = r.decode('utf-8')
 
         while 1:
             res = split_at_hiragana(s, r)
