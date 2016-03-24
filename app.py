@@ -8,7 +8,7 @@ from wtforms import StringField, TextAreaField
 from wtforms.validators import DataRequired
 import glob
 import os
-import time
+import random
 
 SECRET_KEY = 'fdfsasfdee3@re'
 
@@ -25,16 +25,19 @@ def preprocess_input(istr):
 @app.route('/', methods=('GET', 'POST'))
 def main():
     form = MyForm()
+    resp = make_response(render_template('main.html', form=form))
+    resp.set_cookie('filename', "dummy")
+
     if form.validate_on_submit():
         rstr = furi.add_yomi(preprocess_input(form.text.data))
         resp = make_response(render_template('main.html', form=form, rstr=rstr))
-        filename = str(time.clock()) + '.odt'
+        filename = str(int(random.random()*1e8)) + '.odt'
         resp.set_cookie('filename', filename)
 
         write2odt.convert_and_save(rstr, filename)
         return resp
 
-    return make_response(render_template('main.html', form=form))
+    return resp
 
 
 @app.route('/download', methods=('GET', 'POST'))
