@@ -30,10 +30,10 @@ def main():
     if form.validate_on_submit():
         rstr = furi.add_yomi(preprocess_input(form.text.data))
         resp = make_response(render_template('main.html', form=form, rstr=rstr))
-        filename = '/tmp/' + str(int(random.random()*1e8)) + '.odt'
+        filename = str(int(random.random()*1e8)) + '.odt'
         resp.set_cookie('filename', filename)
 
-        write2odt.convert_and_save(rstr, filename)
+        write2odt.convert_and_save(rstr, '/tmp/' + filename)
         return resp
 
     return resp
