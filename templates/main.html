@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="漢字にふりがなを振るツール。odt形式での出力もサポート。">
+
+    <title>ふりがなさん</title>
+
+    <link rel="stylesheet" type="text/css" href="static/main.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="static/side-menu-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="static/side-menu.css">
+    <!--<![endif]-->
+
+</head>
+<body>
+
+<div id="layout">
+    <!-- Menu toggle -->
+    <a href="#menu" id="menuLink" class="menu-link">
+        <!-- Hamburger icon -->
+        <span></span>
+    </a>
+
+    <div id="menu">
+        <div class="pure-menu">
+        </div>
+    </div>
+
+    <div id="main">
+        <div class="header">
+            <h1>ふりがなさん</h1>
+            <h2>漢字にふりがなを振ります。</h2>
+        </div>
+
+        <div class="content">
+            <form class="pure-form" method="POST" action="{{ url_for('main') }}">
+                {{ form.hidden_tag() }}
+                {{ form.text.label }} {{ form.text(size=10000) }}
+                <br>
+                <button type="submit" class="pure-button pure-button-primary">変換</button>
+            </form>
+            <br>
+            <form class="pure-form" action="/">
+                <label>変換結果</label>
+                <textarea>{{ rstr }}</textarea>
+            </form>
+            <br>
+            <form class="pure-form" method="POST" action="{{ url_for('download') }}">
+                <button type="submit" class="pure-button pure-button-primary">ダウンロード</button>
+            </form>
+            <p>Ver. 0.1.0</p>
+            <p>Updated 2016-03-24</p>
+          
+        </div>
+    </div>
+</div>
+
+<script src="static/js/ui.js"></script>
+
+</body>
+</html>
