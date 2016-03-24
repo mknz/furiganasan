@@ -2,11 +2,10 @@
 from __future__ import unicode_literals
 import furi
 import write2odt
-from flask import Flask, render_template, make_response, session, request
+from flask import Flask, render_template, make_response, request
 from flask_wtf import Form
-from wtforms import StringField, TextAreaField
+from wtforms import TextAreaField
 from wtforms.validators import DataRequired
-import glob
 import os
 import random
 
@@ -31,7 +30,7 @@ def main():
     if form.validate_on_submit():
         rstr = furi.add_yomi(preprocess_input(form.text.data))
         resp = make_response(render_template('main.html', form=form, rstr=rstr))
-        filename = str(int(random.random()*1e8)) + '.odt'
+        filename = '/tmp/' + str(int(random.random()*1e8)) + '.odt'
         resp.set_cookie('filename', filename)
 
         write2odt.convert_and_save(rstr, filename)
@@ -42,7 +41,7 @@ def main():
 
 @app.route('/download', methods=('GET', 'POST'))
 def download():
-    filename = request.cookies.get('filename')
+    filename = '/tmp/' + request.cookies.get('filename')
     if not os.path.exists(filename):
         form = MyForm()
         return render_template('main.html', form=form)
