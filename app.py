@@ -31,7 +31,6 @@ def main():
     if form.validate_on_submit():
         rstr = furi.add_yomi(preprocess_input(form.text.data))
         rhtml = rubi_html.convert(rstr)
-        print(rhtml)
         resp = make_response(render_template('main.html', form=form, rstr=rstr, rhtml=rhtml))
         filename = str(int(random.random()*1e8)) + '.odt'
         resp.set_cookie('filename', filename)
