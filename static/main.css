@@ -6,7 +6,7 @@ form label {
 
 form textarea {
   width: 500px;
-  height: 100px;
+  height: 200px;
   background-color: #fafafa;
   -webkit-border-radius: 3px;
      -moz-border-radius: 3px;
@@ -17,3 +17,16 @@ form textarea {
   font-size: 1.1em;
 }
 
+div.result-box {
+  width: 480px;
+  height: 200px;
+  overflow: scroll;
+  background-color: #fafafa;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+  border: 1px solid #cccccc;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 1.1em;
+} 

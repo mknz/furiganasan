@@ -36,8 +36,13 @@
                 <button type="submit" class="pure-button pure-button-primary">変換</button>
             </form>
             <br>
+            <p>ルビ付きhtml</p>
+            <div class="result-box">
+                {{ rhtml | safe }}
+            </div>
+            <br>
             <form class="pure-form" action="/">
-                <label>変換結果</label>
+                <label>半角かっこ内にルビを表示</label>
                 <textarea>{{ rstr }}</textarea>
             </form>
             <br>

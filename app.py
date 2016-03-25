@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import furi
 import write2odt
+import rubi_html
 from flask import Flask, render_template, make_response, request
 from flask_wtf import Form
 from wtforms import TextAreaField
@@ -29,7 +30,9 @@ def main():
 
     if form.validate_on_submit():
         rstr = furi.add_yomi(preprocess_input(form.text.data))
-        resp = make_response(render_template('main.html', form=form, rstr=rstr))
+        rhtml = rubi_html.convert(rstr)
+        print(rhtml)
+        resp = make_response(render_template('main.html', form=form, rstr=rstr, rhtml=rhtml))
         filename = str(int(random.random()*1e8)) + '.odt'
         resp.set_cookie('filename', filename)
 
