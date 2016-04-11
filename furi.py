@@ -80,6 +80,9 @@ def split_at_hiragana(surface, reading):
         return [surface, reading]
 
     hira = rest[:kidx2[0]]  # multiple kanji
+    if hira == "々": # since this character is somehow defined as non-kanji 
+        return [surface, reading]
+
     m = re.search(r'(.*?' + jctconv.hira2kata(hira) + ')(.*)', reading)
     return [surface[:kidx[1]] + hira, m.group(1), surface[kidx[1]+1:], m.group(2)]
 
