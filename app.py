@@ -15,7 +15,14 @@ import furi
 import rubi_html
 import write2odt
 
-SECRET_KEY = 'SECRET'
+
+class ConfigError(Exception):
+    pass
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
+
+if not SECRET_KEY:
+    raise ConfigError
 
 app = Flask(__name__)
 app.config.from_object(__name__)
