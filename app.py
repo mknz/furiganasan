@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-import random
+import uuid
 
 from flask import Flask
 from flask import make_response
@@ -28,7 +28,7 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 
-class MyForm(Form):
+class InputForm(Form):
     text = TextAreaField('テキストを入力', validators=[DataRequired()])
 
 
@@ -39,7 +39,7 @@ def preprocess_input(istr):
 
 @app.route('/', methods=('GET', 'POST'))
 def main():
-    form = MyForm()
+    form = InputForm()
     resp = make_response(render_template('main.html', form=form))
     resp.set_cookie('filename', "dummy")
 
@@ -47,10 +47,12 @@ def main():
         rstr = furi.add_yomi(preprocess_input(form.text.data))
         rhtml = rubi_html.convert(rstr)
         resp = make_response(render_template('main.html', form=form, rstr=rstr, rhtml=rhtml))
-        filename = str(int(random.random()*1e8)) + '.odt'
+
+        temp_file_str = str(uuid.uuid4())
+        filename = '{}.odt'.format(temp_file_str)
         resp.set_cookie('filename', filename)
 
-        write2odt.convert_and_save(rstr, '/tmp/' + filename)
+        write2odt.convert_and_save(rstr, os.path.join('/tmp', filename))
         return resp
 
     return resp
@@ -58,9 +60,9 @@ def main():
 
 @app.route('/download', methods=('GET', 'POST'))
 def download():
-    filename = '/tmp/' + request.cookies.get('filename')
+    filename = os.path.join('/tmp',  request.cookies.get('filename'))
     if not os.path.exists(filename):
-        form = MyForm()
+        form = InputForm()
         return render_template('main.html', form=form)
 
     f = open(filename, 'rb')
