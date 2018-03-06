@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import re
-import sys
 from janome.tokenizer import Tokenizer
 import jctconv
-import six
-import unittest
 
 TOKENS_KANJI = re.compile(u'[一-龠]+')  # kanji
 TOKENS_KATAKANA = re.compile(u'[ァ-ヾ]+')  # katakana
@@ -25,7 +22,7 @@ def kanji_pos(string):
         return [m.start(), m.end()]
     else:
         return None
-    
+
 
 def non_kanji_pos(string):
     '''Get non-kanji positions in the string. Assume only one kanji and hiragana pair.'''
@@ -80,11 +77,12 @@ def split_at_hiragana(surface, reading):
         return [surface, reading]
 
     hira = rest[:kidx2[0]]  # multiple kanji
-    if hira == "々": # since this character is somehow defined as non-kanji 
+    if hira == "々": # since this character is somehow defined as non-kanji
         return [surface, reading]
 
     m = re.search(r'(.*?' + jctconv.hira2kata(hira) + ')(.*)', reading)
     return [surface[:kidx[1]] + hira, m.group(1), surface[kidx[1]+1:], m.group(2)]
+
 
 def create_yomi(s, r):
     '''Assumes one kanji-hiragana pair.'''
@@ -112,6 +110,7 @@ def create_yomi(s, r):
 
     return rstring
 
+
 def add_yomi(string):
     t = Tokenizer()
     tokens = t.tokenize(string)
@@ -120,18 +119,15 @@ def add_yomi(string):
     for token in tokens:
         s = token.surface
         r = token.reading
-        if not isinstance(r, unicode):
-            r = r.decode('utf-8')
 
-        while 1:
+        while True:
             res = split_at_hiragana(s, r)
             if len(res) > 2:
                 rstring += create_yomi(res[0], res[1])
                 s, r = res[2], res[3]
             else:
                 break
-     
+
         rstring += create_yomi(res[0], res[1])
 
     return rstring
-

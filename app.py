@@ -15,12 +15,15 @@ SECRET_KEY = 'fdfsasfdee3@re'
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+
 class MyForm(Form):
     text = TextAreaField('テキストを入力', validators=[DataRequired()])
+
 
 def preprocess_input(istr):
     istr = istr.replace('\r', '')
     return istr
+
 
 @app.route('/', methods=('GET', 'POST'))
 def main():
@@ -54,8 +57,7 @@ def download():
     response.headers['Content-Type'] = 'application/octet-stream'
     response.headers['Content-Disposition'] = 'attachment; filename=furigana.odt'
     return response
-    
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
-
