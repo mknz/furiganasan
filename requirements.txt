@@ -1,0 +1,5 @@
+odfpy
+flask
+flask_wtf
+janome
+jctconv
