@@ -1,16 +1,21 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-import furi
-import write2odt
-import rubi_html
-from flask import Flask, render_template, make_response, request
-from flask_wtf import Form
-from wtforms import TextAreaField
-from wtforms.validators import DataRequired
+
 import os
 import random
 
-SECRET_KEY = 'fdfsasfdee3@re'
+from flask import Flask
+from flask import make_response
+from flask import render_template
+from flask import request
+from flask_wtf import Form
+from wtforms import TextAreaField
+from wtforms.validators import DataRequired
+
+import furi
+import rubi_html
+import write2odt
+
+SECRET_KEY = 'SECRET'
 
 app = Flask(__name__)
 app.config.from_object(__name__)
