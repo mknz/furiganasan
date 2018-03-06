@@ -27,7 +27,7 @@ class TestInputs(FlaskTestCase):
         response = self.app.get('/')
         assert response.status_code == 200
 
-    def test_decompose(self):
+    def test_yomi(self):
         examples = []
         examples.append(dict(before='漢字', after='漢字(かんじ)'))
         examples.append(dict(before='程度', after='程度(ていど)'))
@@ -39,7 +39,8 @@ class TestInputs(FlaskTestCase):
 
         for example in examples:
             string_with_yomi = add_yomi(example['before'])
-            self.assertEqual(string_with_yomi, example['after'], example['before'])
+            with self.subTest():
+                self.assertEqual(string_with_yomi, example['after'], example['before'])
 
 
 if __name__ == '__main__':
