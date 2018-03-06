@@ -44,16 +44,19 @@ def main():
     resp.set_cookie('filename', "dummy")
 
     if form.validate_on_submit():
-        rstr = furi.add_yomi(preprocess_input(form.text.data))
-        rhtml = rubi_html.convert(rstr)
-        resp = make_response(render_template('main.html', form=form, rstr=rstr, rhtml=rhtml))
+        try:
+            rstr = furi.add_yomi(preprocess_input(form.text.data))
+            rhtml = rubi_html.convert(rstr)
+            resp = make_response(render_template('main.html', form=form, rstr=rstr, rhtml=rhtml))
 
-        temp_file_str = str(uuid.uuid4())
-        filename = '{}.odt'.format(temp_file_str)
-        resp.set_cookie('filename', filename)
+            temp_file_str = str(uuid.uuid4())
+            filename = '{}.odt'.format(temp_file_str)
+            resp.set_cookie('filename', filename)
 
-        write2odt.convert_and_save(rstr, os.path.join('/tmp', filename))
-        return resp
+            write2odt.convert_and_save(rstr, os.path.join('/tmp', filename))
+            return resp
+        except:
+            return render_template('main.html', form=form, rstr='Error!')
 
     return resp
 
