@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import re
+
 from janome.tokenizer import Tokenizer
 import jctconv
 
 TOKENS_KANJI = re.compile(u'[一-龠]+')  # kanji
 TOKENS_KATAKANA = re.compile(u'[ァ-ヾ]+')  # katakana
+
 
 def exist_kanji(string):
     res = TOKENS_KANJI.findall(string)  # check if it contains kanji

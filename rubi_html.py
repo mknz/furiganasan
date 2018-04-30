@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import division, print_function, absolute_import, unicode_literals
 import re
 
 TOKENS_KANJI = re.compile(u'[一-龠]+')  # kanji

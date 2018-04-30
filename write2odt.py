@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-from __future__ import division, print_function, absolute_import, unicode_literals
-from odf.opendocument import OpenDocumentText
-from odf.style import (Style, RubyProperties)
-from odf.text import (P, Ruby, RubyBase, RubyText)
-from odf import teletype
 import re
+
+from odf.opendocument import OpenDocumentText
+from odf import teletype
+from odf.text import P
+from odf.text import Ruby
+from odf.text import RubyBase
+from odf.text import RubyText
 
 TOKENS_KANJI = re.compile(u'[一-龠]+')  # kanji
 
